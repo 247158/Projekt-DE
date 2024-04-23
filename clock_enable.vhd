@@ -1,30 +1,61 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+-------------------------------------------------
+--! @brief Clock enable
+--! @version 1.3
+--! @copyright (c) 2019-2024 Tomas Fryza, MIT license
+--!
+--! This VHDL file generates pulses of the clock enable signal.
+--! Each pulse is one period of the clock signal wide, and its
+--! repetition is determined by the PERIOD generic.
+
+--! Developed using TerosHDL, Vivado 2020.2, and EDA Playground.
+--! Tested on Nexys A7-50T board and xc7a50ticsg324-1L FPGA.
+-------------------------------------------------
+
+library ieee;
+    use ieee.std_logic_1164.all;
+
+-------------------------------------------------
 
 entity clock_enable is
-    Port ( clk : in STD_LOGIC;
-           rst : in STD_LOGIC;
-           enable : out STD_LOGIC);
-end clock_enable;
+    generic (
+        PERIOD : integer := 3 --! Default number of clk periodes to generate one pulse
+    );
+    port (
+        clk   : in    std_logic; --! Main clock
+        rst   : in    std_logic; --! High-active synchronous reset
+        pulse : out   std_logic  --! Clock enable pulse signal
+    );
+end entity clock_enable;
 
-architecture Behavioral of clock_enable is
-    constant divider : integer := 50000000; -- 1 секунда для 50 МГц
-    signal counter : integer range 0 to divider := 0;
+-------------------------------------------------
+
+architecture behavioral of clock_enable is
+    --! Local counter
+    signal sig_count : integer range 0 to PERIOD - 1;
 begin
 
-    process(clk, rst)
+    --! Count the number of clock pulses from zero to PERIOD-1.
+    p_clk_enable : process (clk) is
     begin
-        if rst = '1' then
-            counter <= 0;
-            enable <= '0';
-        elsif rising_edge(clk) then
-            if counter = divider - 1 then
-                counter <= 0;
-                enable <= '0';
-            else
-                counter <= counter + 1;
-            end if;
-        end if;
-    end process;
 
-end Behavioral;
+        if (rising_edge(clk)) then                 -- Synchronous process
+            if (rst = '1') then                    -- High-active reset
+                sig_count <= 0;
+
+            -- Counting
+            elsif (sig_count < (PERIOD - 1)) then
+                sig_count <= sig_count + 1;        -- Increment local counter
+
+            -- End of counter reached
+            else
+                sig_count <= 0;
+            end if;                                -- Each `if` must end by `end if`
+        end if;
+
+    end process p_clk_enable;
+
+    -- Generated pulse is always one clock long
+    pulse <= '1' when (sig_count = PERIOD - 1) else
+             '0';
+
+end architecture behavioral;
