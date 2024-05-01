@@ -4,26 +4,26 @@ use ieee.numeric_std.all;
 
 entity caesar_cipher is
     Port (
-        clk : in  std_logic;
-        rst : in  std_logic;
-        sw  : in  std_logic_vector(7 downto 0);
-        led : out std_logic_vector(7 downto 0)
+        en: in std_logic;
+        code_decode : in std_logic;
+        input  : in  std_logic_vector(5 downto 0);
+        output : out std_logic_vector(5 downto 0)
     );
 end caesar_cipher;
 
 architecture Behavioral of caesar_cipher is
-    signal temp : unsigned(7 downto 0);
 begin
-    process(clk)
+    process(input, code_decode, en)
+        variable temp_out : integer;
     begin
-        if rising_edge(clk) then
-            if rst = '1' then
-                temp <= (others => '0');
-            else
-                temp <= unsigned(sw) + 3;  -- Caesar cipher shift by 3
-            end if;
+    temp_out := TO_INTEGER(unsigned(input));
+    if en = '1' then
+        if code_decode = '0' then
+            temp_out := (temp_out + 3) mod 8;
+        else
+            temp_out := (temp_out - 3) mod 8;
         end if;
+    end if;
+    output <= std_logic_vector(TO_UNSIGNED(temp_out, 6));
     end process;
-
-    led <= std_logic_vector(temp);
 end Behavioral;
