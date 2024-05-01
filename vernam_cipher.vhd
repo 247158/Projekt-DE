@@ -26,3 +26,6 @@ begin
             end if;
         end if;
     end process;
+
+    led <= led_internal; -- Присваиваем внутренний сигнал к выходному порту
+end Behavioral;
