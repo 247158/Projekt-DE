@@ -1,6 +1,6 @@
 Member List and their role: 
-Oleinik Ruslan - Writing code and programming Nexys A7-50t 
-Pavlov Ivan - Writing code and simulation it (Caesar_cipher.vhd and bin2seg.vhd)
+Oleinik Ruslan - was responsible for Caesar_cipher.vhd and top.vhd
+Pavlov Ivan - was responsible for editing bin2seg.vhd, driver_7seg and nexys a7-50t
 
 Project: Topic 5: Implementation of Basic Ciphers
 
@@ -33,18 +33,15 @@ Example:
 Encrypting "12345" with a shift of 3: "45678"
 Decrypting: "12345"
 
-
-
-
 ![image](https://github.com/247158/Projekt-DE/assets/165295428/efc83327-0c19-4fdd-b6c0-d6fbda8d5b79)
 
 ![image](https://github.com/247158/Projekt-DE/assets/165295428/2959de3d-1671-495c-95c1-08f49e22a337)
 
 ![image](https://github.com/247158/Projekt-DE/assets/165295428/7410a1da-13fb-4f63-b917-8903b8434400)
 
-
 caesar_tb
-![image](https://github.com/247158/Projekt-DE/assets/165295428/d0fda15d-2fdb-4985-b0f7-6a51747e6341)
+![image](https://github.com/247158/Projekt-DE/assets/165295428/6e974376-0592-4321-bca3-eaaa6ef0e9e9)
+
 
 
 
